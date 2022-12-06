@@ -1,0 +1,19 @@
+body {
+    font-family: 'Courier New', Courier, monospace;
+    position: absolute;
+}
+
+img {
+    float: left;
+    width: 25%;
+}
+
+table, th, td {
+    border: 1px solid;
+    border-collapse: collapse;
+}
+
+table, h2 {
+    margin-left: 15cm;
+    width: 15%;
+}
