@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>This Season</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="games.html" style="text-decoration: underline;">Games</a></li>
+        <li><a href="stats.html">Stats (All seasons)</a></li>
+        <li><a href="about.html">About Me</a></li>
+    </ul>
+
+    <h2>Games</h2>
+    <select id="selectedSeason" onchange="statsForSeason()"></select>
+
+    <table id="stats">
+        <tr>
+            <th>Date</th>
+            <th>Points</th>
+            <th>Assists</th>
+            <th>Rebounds</th>
+            <th>Steals</th>
+            <th>Blocks</th>
+            <th>Field Goal %</th>
+            <th>3pt %</th>
+            <th>Free Throw %</th>
+            <th>Turnovers</th>
+            <th>Minutes</th>
+        </tr>
+        <tbody id="statsBody">
+        </tbody>
+    </table>
+</body>
+<script>
+    const table = document.getElementById('statsBody');
+
+    const selected = document.getElementById('selectedSeason');
+    const seasons = [];
+
+    for (let i = new Date().getFullYear(); i >= 2013; i--) {
+        let option = document.createElement('option');
+        option.text = i.toString(); 
+        document.getElementById('selectedSeason').add(option);
+    }
+
+    function sortByDate(a, b) {
+        return new Date(b.game.date).getTime() - new Date(a.game.date).getTime();
+    }
+
+    async function statsForSeason(season = selected.options[selected.selectedIndex].value) {
+        document.getElementById('statsBody').innerHTML = '';
+
+        const req = await fetch(`https://www.balldontlie.io/api/v1/stats?player_ids[]=15&seasons[]=${season}&per_page=82&postseason=false`);
+        if (req.status === 429) return alert('Rate limited... Only allowed 60 requests a minute.');
+        const json = await req.json();
+
+        const giannis = json.data;
+
+        giannis.sort(sortByDate);
+        
+        let track = ['pts', 'ast', 'reb', 'stl', 'blk', 'fg_pct', 'fg3_pct', 'ft_pct', 'turnover', 'min'];
+
+        giannis.forEach(game => {
+            let row = table.insertRow(-1);
+
+            row.insertCell(-1).innerHTML = '&nbsp;</td>' + new Date(game.game.date).toISOString().replace('-', '/').split('T')[0].replace('-', '/') + '&nbsp;</td>';
+
+            track.forEach(stat => {
+                let num = game[stat];
+                try {
+                    let number = Number(num);
+                    if (number) {
+                        game[stat] = Math.round((number + Number.EPSILON) * 100) / 100;
+                    }
+                } catch (err) {}
+                row.insertCell(-1).innerText = game[stat];
+            });
+        });
+    }
+
+    statsForSeason();
+</script>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Seasons</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="games.html">Games (Current Season)</a></li>
+        <li><a href="seasons.html" style="text-decoration: underline;">Stats (All seasons)</a></li>
+        <li><a href="about.html">About Me</a></li>
+    </ul>
+
+    <h2>All Seasons (Regular Season)</h2>
+    <table id="stats">
+        <tr>
+            <th>Year</th>
+            <th>Games Played</th>
+            <th>Points/Game</th>
+            <th>Assists/Game</th>
+            <th>Rebounds/Game</th>
+            <th>Steals/Game</th>
+            <th>Blocks/Game</th>
+            <th>Field Goal %</th>
+            <th>3pt %</th>
+            <th>Free Throw %</th>
+            <th>Turnovers/Game</th>
+            <th>Minutes/Game</th>
+        </tr>
+    </table>
+    <img src="images/giannis.jpg">
+</body>
+<script>
+    const table = document.getElementById('stats');
+
+    async function seasonAverages(season) {
+        const req = await fetch(`https://www.balldontlie.io/api/v1/season_averages?player_ids[]=15&season=${season}`);
+        if (req.status === 429) return alert('Rate limited by the API. Only allowed 60 requests a minute. All uses of the "Stats (All seasons)" page uses around 10.');
+        const json = await req.json();
+        return json.data;
+    }
+
+    async function main() {
+        const seasons = [];
+
+        for (let i = new Date().getFullYear(); i > 2013; i--) {
+            seasons.push(await seasonAverages(i));
+        }
+    
+        let track = ['season', 'games_played', 'pts', 'ast', 'reb', 'stl', 'blk', 'fg_pct', 'fg3_pct', 'ft_pct', 'turnover', 'min'];
+
+        seasons.forEach(season => {
+            let szn = season[0];
+            let row = table.insertRow(-1);
+            
+            track.forEach(stat => {
+                row.insertCell(-1).innerText = szn[stat];
+            });
+
+        });
+    }
+
+    main();
+</script>
+</html>

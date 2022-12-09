@@ -5,21 +5,45 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <title>Giannis Antetokounmpo</title>
 </head>
 <body>
-    <h1>Giannis Antetokounmpo</h1>
-    <img src="giannis.jfif" id="giannis image">
+    <ul>
+        <li><a href="index.html" style="text-decoration: underline;">Home</a></li>
+        <li><a href="games.html">Games</a></li>
+        <li><a href="stats.html">Stats (All seasons)</a></li>
+        <li><a href="about.html">About Me</a></li>
+    </ul>
 
-    <h2>Last 25 Games</h2>
-    <table id="stats">
+    <h1>Giannis Antetokounmpo</h1>
+    NBA Player for the Milwaukee Bucks<br>
+    <img src="images/giannis.jfif" id="giannis image">
+    <table>
         <tr>
-            <th>Date</th>
-            <th>Points</th>
-            <th>Assists</th>
+            <th>Birth Date</th>
+            <th>From</th>
+            <th>Draft Pick</th>
+            <th>Height</th>
+            <th>Weight</th>
+            <th>Wingspan</th>
         </tr>
+        <td>December 6, 1994</td>
+        <td>Greece</td>
+        <td>2013 R1 P15</td>
+        <td>7'0"</td>
+        <td id="weight">0lbs</td>
+        <td>7'3"</td>
     </table>
-      
+    <h5>Each page will update with the latest stats every time you refresh. It is limited to 60 requests to the API per minute and some pages use multiple requests.</h5>
 </body>
-<script src="script.js"></script>
+<script>
+    async function main() {
+        const req = await fetch(`https://www.balldontlie.io/api/v1/players/15`);
+        if (req.status === 429) return alert('Rate limited... Only allowed 60 requests a minute.')
+        const json = await req.json();        
+        document.getElementById('weight').innerText = json.weight_pounds + 'lbs';
+    }
+
+    main()
+</script>
 </html>

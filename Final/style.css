@@ -1,19 +1,66 @@
 body {
     font-family: 'Courier New', Courier, monospace;
     position: absolute;
+    color: white;
+    background-color: #00471B;
+}
+
+div {
+    height: 200px;
+    width: 400px;
+    background: black;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -200px;
+}
+
+a {
+    color: white;
 }
 
 img {
-    float: left;
     width: 25%;
 }
 
 table, th, td {
     border: 1px solid;
     border-collapse: collapse;
+    text-align: center;
 }
 
-table, h2 {
-    margin-left: 15cm;
+table {
     width: 15%;
+}
+
+th {
+    padding: 0.2cm;
+    margin: 0.2cm;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #EEE1C6;
+}
+  
+li {
+    float: left;
+}
+  
+li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+  
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+    background-color: #111;
 }
