@@ -57,10 +57,11 @@ li a {
     color: black;
     text-align: center;
     padding: 14px 16px;
-    text-decoration: none;
+    text-decoration: none; 
 }
   
 /* Change the link color to #111 (black) on hover */
 li a:hover {
-    background-color: #111;
+    border: 10px;
+    background-color: #ead4a8;
 }

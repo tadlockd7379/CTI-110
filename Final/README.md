@@ -9,6 +9,6 @@ Your site must fulfill the following requirements:
 
 Grading Criteria:
 - Minimum of three pages (20 points each)
-- Functional links + at least one image embedded ( 20 points)
+- Functional links + at least one image embedded (20 points)
 - Table added to website (10 points)
 - Simple form added to website (10 points)
